@@ -1,0 +1,7 @@
+{
+  "name": "Tiketi - Event & Drink Ticketing",
+  "description": "A production-ready ticketing system for Kenyan events with M-Pesa integration, drink pre-ordering, and QR validation.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

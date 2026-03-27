@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] }
+      },
+      "required": ["name", "email", "phone"]
+    },
+    "Event": {
+      "title": "Event",
+      "description": "Event details",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "venue": { "type": "string" },
+        "description": { "type": "string" },
+        "image": { "type": "string" },
+        "prices": {
+          "type": "object",
+          "properties": {
+            "single": { "type": "number" },
+            "couple": { "type": "number" },
+            "group": { "type": "number" },
+            "vip": { "type": "number" }
+          }
+        }
+      },
+      "required": ["name", "date", "venue", "prices"]
+    },
+    "Drink": {
+      "title": "Drink",
+      "description": "Drink menu item",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string", "enum": ["Alcoholic", "Non-Alcoholic", "Premium"] },
+        "description": { "type": "string" },
+        "image": { "type": "string" }
+      },
+      "required": ["name", "price", "category"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Payment order",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "totalAmount": { "type": "number" },
+        "paymentStatus": { "type": "string", "enum": ["pending", "paid", "failed"] },
+        "mpesaCheckoutRequestID": { "type": "string" },
+        "mpesaReceiptNumber": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "totalAmount", "paymentStatus"]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Individual item in an order",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "itemType": { "type": "string", "enum": ["ticket", "drink"] },
+        "itemId": { "type": "string" },
+        "quantity": { "type": "number" },
+        "price": { "type": "number" }
+      },
+      "required": ["orderId", "itemType", "itemId", "quantity", "price"]
+    },
+    "Ticket": {
+      "title": "Ticket",
+      "description": "Digital ticket for entry",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "orderId": { "type": "string" },
+        "eventId": { "type": "string" },
+        "type": { "type": "string" },
+        "price": { "type": "number" },
+        "qrCode": { "type": "string" },
+        "status": { "type": "string", "enum": ["unused", "used"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "orderId", "eventId", "type", "qrCode", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/events/{eventId}": {
+      "schema": "Event",
+      "description": "Event listings"
+    },
+    "/drinks/{drinkId}": {
+      "schema": "Drink",
+      "description": "Drink menu"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Customer orders"
+    },
+    "/orderItems/{itemId}": {
+      "schema": "OrderItem",
+      "description": "Items within orders"
+    },
+    "/tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Generated tickets"
+    }
+  }
+}
